@@ -21,18 +21,18 @@ novos produtos via planilha)].
 
 ## Endpoints:
 
-# Enviar um nova planilha
+### Enviar um nova planilha
 - localhost:8001/api/product/create
 - [Requisitos] :
 - Submeter um campo do tipo "File" com o nome de "planilha".
 
-# Lista de produtos (GET)
+### Lista de produtos (GET)
 - localhost:8001/api/products
-# Quantidade de produtos (GET)
+### Quantidade de produtos (GET)
 - localhost:8001/api/products/quantity
-# Categoria de produtos (GET)
+### Categoria de produtos (GET)
 - localhost:8001/api/category/:id/products
-# Retornar um produto (GET)
+### Retornar um produto (GET)
 - localhost:8001/api/product/:id 
 
 
