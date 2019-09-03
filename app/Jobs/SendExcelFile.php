@@ -29,7 +29,7 @@ class SendExcelFile implements ShouldQueue
      */
     public function handle()
     {
-        sleep(10);
+        sleep(30);
         
     }
 }
