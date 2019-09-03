@@ -14,10 +14,13 @@ novos produtos via planilha)].
 ## Tecnologias utilizadas
 
 - Laravel 5.8 (Poderia ser utilizado o Lumen).
-- Biblioteca "cyber-duck/laravel-excel" para importação e tratamento de Arq Excel.
+- Biblioteca "cyber-duck/laravel-excel" para importação e tratamento de Arquivos Excel.
 - PHPUnit (Instalado nativamente no Laravel).
 
 ## Instruções para utilização da API
+- Durante a submissão de um novo arquivo Excel para a API é necessário que dois serviços do laravel estejam ativos, são ele:
+<li>Server (php artisan serve)</li>
+<li>Jobs/Queue (php artisan queue:work)</li>
 
 ## Endpoints:
 
