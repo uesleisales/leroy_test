@@ -3,7 +3,7 @@
 ## Desafio 
 Criar uma API RESTful que:
 
-- [Receberá uma planilha de produtos (segue em anexo) que deve ser
+- [Receberá uma planilha de produtos ("planilha_test.xlsx") que deve ser
 processada em background (queue)].
 - [Ter um endpoint que informe se a planilha for processada com sucesso ou
 não.].
