@@ -11,8 +11,28 @@ não.].
 novos produtos via planilha)].
 
 
-## Learning Laravel
+## Tecnologias utilizadas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Laravel 5.8 (Poderia ser utilizado o Lumen).
+- Biblioteca "cyber-duck/laravel-excel" para importação e tratamento de Arq Excel.
+- PHPUnit (Instalado nativamente no Laravel).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Instruções para utilização da API
+
+## Endpoints:
+
+# Enviar um nova planilha
+- localhost:8001/api/product/create
+- [Requisitos] :
+- Submeter um campo do tipo "File" com o nome de "planilha".
+
+# Lista de produtos (GET)
+- localhost:8001/api/products
+# Quantidade de produtos (GET)
+- localhost:8001/api/products/quantity
+# Categoria de produtos (GET)
+- localhost:8001/api/category/:id/products
+# Retornar um produto (GET)
+- localhost:8001/api/product/:id 
+
+
