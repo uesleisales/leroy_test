@@ -37,5 +37,11 @@ novos produtos via planilha)].
 - localhost:8001/api/category/:id/products
 ### Retornar um produto (GET)
 - localhost:8001/api/product/:id 
+### Atualizar um produto (POST)
+- localhost:8001/api/product/update/:id
+### Remover um produto (GET)
+- localhost:8001/api/product/delete/:id
+### Verificar se uma planilha foi processada (GET)
+- localhost:8001/api/spreadsheet/verify/:id
 
 
