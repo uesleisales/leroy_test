@@ -19,8 +19,8 @@ novos produtos via planilha)].
 
 ## Instruções para utilização da API
 - Durante a submissão de um novo arquivo Excel para a API é necessário que dois serviços do laravel estejam ativos, são ele:
-<li>Server (php artisan serve)</li>
-<li>Jobs/Queue (php artisan queue:work)</li>
+- [Server] (php artisan serve)
+- [Jobs/Queue] (php artisan queue:work)
 
 ## Endpoints:
 
