@@ -1,18 +1,15 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Leroy_Merlin.svg/1200px-Leroy_Merlin.svg.png" width="300">
 
-## About Laravel
+## Desafio 
+Criar uma API RESTful que:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Receberá uma planilha de produtos (segue em anexo) que deve ser
+processada em background (queue)].
+- [Ter um endpoint que informe se a planilha for processada com sucesso ou
+não.].
+- [Seja possível visualizar, atualizar e apagar os produtos (só é possível criar
+novos produtos via planilha)].
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
 ## Learning Laravel
 
