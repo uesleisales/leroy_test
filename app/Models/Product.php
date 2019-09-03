@@ -14,7 +14,6 @@ class Product extends Model
         'free_shipping',
         'description',
         'category',
-        'category',
         'price',
         'cdPlan',
     ];
