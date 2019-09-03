@@ -18,7 +18,7 @@ novos produtos via planilha)].
 - PHPUnit (Instalado nativamente no Laravel).
 
 ## Instruções para utilização da API
-- Durante a submissão de um novo arquivo Excel para a API é necessário que dois serviços do laravel estejam ativos, são ele:
+- Durante a submissão de um novo arquivo Excel para a API é necessário que dois serviços do laravel estejam ativos, são eles:
 - [Server] (php artisan serve)
 - [Jobs/Queue] (php artisan queue:work)
 
