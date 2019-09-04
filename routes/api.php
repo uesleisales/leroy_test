@@ -9,7 +9,7 @@ Route::get('products', 'api\ProductController@index');
 
 #-----------------------------------------------------------------
 # Rota responsável por exibir a quantidade de produtos
-Route::get('products/quantity', 'api\ProductController@quantity');
+Route::get('products/quantity', 'api\ProductController@quantity'); 
 #-----------------------------------------------------------------
 
 #------------------------------------------------------------------------------
