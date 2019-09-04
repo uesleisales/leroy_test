@@ -18,10 +18,12 @@ class SendExcelFile implements ShouldQueue
     
     private $product;
 
-    public function __construct(Product $product)
+    public function __construct(array $products)
     {
-        $this->product = $product;
+        //$this->product = $product;
         $this->prepareStatus();
+        $this->params = $products;
+        $this->setInput($this->params); 
     }
 
     /**
@@ -30,8 +32,15 @@ class SendExcelFile implements ShouldQueue
      * @return void
      */
     public function handle()
-    {
-        sleep(10);
-        
+    {   
+        $max = mt_rand(5, 30);
+        $this->setProgressMax($max);
+
+        for ($i = 0; $i <= $max; $i += 1) {
+            sleep(1);
+            $this->setProgressNow($i);
+        }
+
+        $this->setOutput(['total' => $max, 'other' => 'parameter']);
     }
 }

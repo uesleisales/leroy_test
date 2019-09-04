@@ -39,6 +39,6 @@ Route::get('product/delete/{id}', 'api\ProductController@destroy');
 
 #------------------------------------------------------------------------
 # Rota responsável por verificar se a planilha foi processada com sucesso
-Route::get('spreadsheet/verify/{id}', 'api\ProductController@verify');
+Route::get('spreadsheet/verify/{cdPlan}', 'api\ProductController@spreadsheetVerify');
 #------------------------------------------------------------------------
 

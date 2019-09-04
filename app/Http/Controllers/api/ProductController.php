@@ -107,7 +107,7 @@ class ProductController extends Controller
                 # Adiciona os dados da planilha no banco
                 try{
 
-                    $product = $this->product->create(['lm' => $c[0],
+                    $product[] = $this->product->create(['lm' => $c[0],
                           'name' => $c[1], 
                           'free_shipping' => $c[2],
                           'description' => $c[3],
@@ -116,15 +116,6 @@ class ProductController extends Controller
                           'cdPlan' => $cdPlan]
                          );
                     #-----------------------------------------
-
-
-                    #---------------------------------------
-                    # Dispara o Job de envio da Planilha
-                    $job = new SendExcelFile($product);
-                    $this->dispatch($job);
-                    $jobStatusId = $job->getJobStatusId();
-                    #---------------------------------------
-
                 }catch(\Exception $e){
                     #---------------------------------------------
                     # Faz um roolback das informações da transação
@@ -136,7 +127,14 @@ class ProductController extends Controller
                 $c++;
             }
 
-            #--------------------------------------
+            #---------------------------------------
+            # Dispara o Job de envio da Planilha
+            $job = new SendExcelFile($product);
+            $this->dispatch($job);
+            $jobStatusId = $job->getJobStatusId();
+
+
+            #--------------------------------------   
             # Faz a persistência dos dados no banco
             DB::commit();
             #--------------------------------------
@@ -158,6 +156,28 @@ class ProductController extends Controller
             #------------------------------------------------------------
         }
 
+    }
+
+    #----------------------------------------------------------------
+    # Método responsável por verificar se uma planilha foi processada
+
+    /*
+    * Obs: Se um retorno > 1 exite , a planilha é validada, pois no método store
+    * se houver um falha em qualquer item há um rollback de todos anteriores.
+    * Ex de cdPlan: 7a0509908e7511aa9b9a45d003962648
+    */
+
+    public function spreadsheetVerify($cdPlan){
+
+        $products = Product::where('cdPlan', $cdPlan)->count();
+
+        if($products > 0){
+            return response()->json(['response' => 'processed'], 200);
+        }else{
+            return response()->json(['response' => 'unprocessed'], 404);
+        }
+        
+       
     }
 
     
