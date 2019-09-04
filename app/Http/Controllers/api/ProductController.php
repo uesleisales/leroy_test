@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     
+    private $product;
+
+    public function __construct(Product $product){
+        $this->product = $product;
+    }
+
 
     #---------------------------------------------
     # Retorna a lista de todos os produtos cadastrados
@@ -62,7 +68,7 @@ class ProductController extends Controller
          ]);
 
          if ($v->fails()) {
-                return response()->json(['message' => $v->errors(), 'data' => ''],202);
+                return response()->json(['message' => $v->errors(), 'data' => ''],422);
          }
          #---------------------------------------------
         
@@ -76,7 +82,7 @@ class ProductController extends Controller
             $collection = $excel->getCollection();
              #-----------------------------------------------
         }catch(\Exception $e){
-            return response()->json(['message' => "Falha ao abrir o arquivo", 'data' => ''], 202);
+            return response()->json(['message' => "Falha ao abrir o arquivo", 'data' => ''], 500);
         }
         
 
@@ -124,7 +130,7 @@ class ProductController extends Controller
                     # Faz um roolback das informações da transação
                     DB::rollback();
                     #---------------------------------------------
-                    return response()->json(['message' => "Falha ao adicionar os produtos", 'data' => ''], 202);
+                    return response()->json(['message' => "Falha ao adicionar os produtos", 'data' => ''], 500);
                 }
                 $c++;
             }
@@ -140,7 +146,7 @@ class ProductController extends Controller
                     [
                         'cdPlan' => $cdPlan,
                         'message' => count($c)." produtos cadastrado(s) com sucesso",
-                    ]
+                    ] , 200
             );
             #-----------------------------------------------------------------------
 
@@ -165,7 +171,7 @@ class ProductController extends Controller
         # Retorna se o produto está cadastrado
 
         if(empty($product)){
-            return response()->json(['message' => "Nenhum produto encontrado"],404);
+            return response()->json(['message' => "Nenhum produto encontrado"], 404);
         }else{
             return response()->json(['message' => 'success' , 'data' => $product],200);
         }
@@ -190,7 +196,7 @@ class ProductController extends Controller
          ]);
 
          if ($v->fails()) {
-                return response()->json(['message' => $v->errors()],202);
+                return response()->json(['message' => $v->errors()], 422);
          }
          #---------------------------------------------
 
@@ -223,7 +229,7 @@ class ProductController extends Controller
             return response()->json([
                 'message' => "Produto atualizado com sucesso",
                 'data'    => $data,
-                ]);
+                ] , 200);
             #------------------------------------------------
 
         }catch(\Exception $e){
@@ -231,13 +237,23 @@ class ProductController extends Controller
             # Faz um roolback das informações da transação
             DB::rollback();
             #---------------------------------------------
-            return response()->json(['message' => "Falha ao atualizar o produto", 'data' => ''], 202);
+            return response()->json(['message' => "Falha ao atualizar o produto", 'data' => ''], 500);
         }
     }
 
+    #------------------------------------------
+    # Método responśavel por remover um produto
     public function destroy($id)
     {
-        
+                
+        if(!$product = $this->product->find($id)){
+            return response()->json(['error' => 'product_not_found'] , 404);
+        }
+
+        if ( !$delete = $product->delete() ) {
+            return response()->json(['error' => 'product_not_delete', 500]);
+        }
+        return response()->json(['response' => $delete]);
     }
 
 
