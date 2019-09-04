@@ -27,31 +27,29 @@ class ProductController extends Controller
     # Retorna a lista de todos os produtos cadastrados
     public function index()
     {   
-        return response()->json([
-            'data' => Product::all()], 200
-            );
+        return response()->json(['response' => $this->product->all()], 200);
     }
 
     #-------------------------------------
     # Retorna a quantidade de produtos
     public function quantity()
     {   
-        $c_prd = Product::all()->count();
-        return response()->json(['data' => $c_prd, 'message' => 'success'],200);
+        $c_prd = $this->product->all()->count();
+        return response()->json(['response' => $c_prd],200);
     }
 
     #-----------------------------------------------------
     # Retorna a lista de produtos de determinada categoria
     public function catProducts($id)
     {   
-        $products = Product::where('category','=',$id)->get();
+        $products = $this->product->where('category','=',$id)->get();
 
         #-----------------------------------
         # Verifica se existem produtos
         if(!$products->isEmpty()){
-            return response()->json(['data' => $products, 'message' => 'success'],200);
+            return response()->json(['response' => $products],200);
         }else{
-            return response()->json(['message' => "Nenhum produto cadastrado nessa categoria", 'data' => ''],404);
+            return response()->json(['error' => "product_not_category_error"],404);
         }
     }
     
@@ -68,7 +66,7 @@ class ProductController extends Controller
          ]);
 
          if ($v->fails()) {
-                return response()->json(['message' => $v->errors(), 'data' => ''],422);
+                return response()->json(['validate_error' => $v->errors()],422);
          }
          #---------------------------------------------
         
@@ -82,7 +80,7 @@ class ProductController extends Controller
             $collection = $excel->getCollection();
              #-----------------------------------------------
         }catch(\Exception $e){
-            return response()->json(['message' => "Falha ao abrir o arquivo", 'data' => ''], 500);
+            return response()->json(['error' => "file_not_open"], 500);
         }
         
 
@@ -130,7 +128,7 @@ class ProductController extends Controller
                     # Faz um roolback das informações da transação
                     DB::rollback();
                     #---------------------------------------------
-                    return response()->json(['message' => "Falha ao adicionar os produtos", 'data' => ''], 500);
+                    return response()->json(['error' => "product_not_create"], 500);
                 }
                 $c++;
             }
@@ -145,7 +143,7 @@ class ProductController extends Controller
             return response()->json(
                     [
                         'cdPlan' => $cdPlan,
-                        'message' => count($c)." produtos cadastrado(s) com sucesso",
+                        'response' => count($c)." produtos cadastrado(s) com sucesso",
                     ] , 200
             );
             #-----------------------------------------------------------------------
@@ -153,7 +151,7 @@ class ProductController extends Controller
         }else{
             #------------------------------------------------------------
             # Retorno caso os dados venham em branco
-            return response()->json(['message' => 'Nenhum registro para adicionar', 'data' => ''],202);
+            return response()->json(['error' => 'empty_products'], 500);
             #------------------------------------------------------------
         }
 
@@ -165,18 +163,15 @@ class ProductController extends Controller
 
     public function show($id)
     {   
-        $product = Product::find($id);
 
-        #---------------------------------------------
-        # Retorna se o produto está cadastrado
-
-        if(empty($product)){
-            return response()->json(['message' => "Nenhum produto encontrado"], 404);
-        }else{
-            return response()->json(['message' => 'success' , 'data' => $product],200);
+        #---------------------------------------------------------
+        # Faz a validação para verificar se o produto existe
+        if( !$product = $this->product->find($id)) {
+            return response()->json(['error' => 'not_found'], 404);
         }
+        return response()->json(['response' => $product]);
 
-        #----------------------------------------------
+        #---------------------------------------------------------
 
     }
     #------------------------------------------
@@ -196,7 +191,7 @@ class ProductController extends Controller
          ]);
 
          if ($v->fails()) {
-                return response()->json(['message' => $v->errors()], 422);
+                return response()->json(['validate_error' => $v->errors()], 422);
          }
          #---------------------------------------------
 
@@ -226,10 +221,7 @@ class ProductController extends Controller
 
             #-------------------------------------------------
             # Exibe a mensagem de sucesso e retorna os dados
-            return response()->json([
-                'message' => "Produto atualizado com sucesso",
-                'data'    => $data,
-                ] , 200);
+            return response()->json(['response' => $data] , 200);
             #------------------------------------------------
 
         }catch(\Exception $e){
@@ -237,7 +229,7 @@ class ProductController extends Controller
             # Faz um roolback das informações da transação
             DB::rollback();
             #---------------------------------------------
-            return response()->json(['message' => "Falha ao atualizar o produto", 'data' => ''], 500);
+            return response()->json(['error' => "product_not_update"], 500);
         }
     }
 
