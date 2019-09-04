@@ -108,7 +108,7 @@ class ProductController extends Controller
                 # Adiciona os dados da planilha no banco
                 try{
 
-                    $product = Product::create(['lm' => $c[0],
+                    $product = $this->product->create(['lm' => $c[0],
                           'name' => $c[1], 
                           'free_shipping' => $c[2],
                           'description' => $c[3],
@@ -128,7 +128,7 @@ class ProductController extends Controller
                     # Faz um roolback das informações da transação
                     DB::rollback();
                     #---------------------------------------------
-                    return response()->json(['error' => "product_not_create"], 500);
+                    return response()->json(['error' => "error_insert"], 500);
                 }
                 $c++;
             }
@@ -204,7 +204,6 @@ class ProductController extends Controller
             'price'         => $request->get('price'),
         ];
 
-
         try{
 
             #----------------------
@@ -212,17 +211,22 @@ class ProductController extends Controller
             DB::beginTransaction();
             #----------------------
 
-            Product::where('id', '=',$id)->update($data);
+            if($this->product->where('id', '=',$id)->update($data)){
+                #--------------------------------------
+                # Faz a persistência dos dados no banco
+                DB::commit();
+                #--------------------------------------
 
-            #--------------------------------------
-            # Faz a persistência dos dados no banco
-            DB::commit();
-            #--------------------------------------
-
-            #-------------------------------------------------
-            # Exibe a mensagem de sucesso e retorna os dados
-            return response()->json(['response' => $data] , 200);
-            #------------------------------------------------
+                #-------------------------------------------------
+                # Exibe a mensagem de sucesso e retorna os dados
+                return response()->json(['response' => $data] , 200);
+                #------------------------------------------------
+            }else{
+                #---------------------------------------------
+                # Faz um roolback das informações da transação
+                DB::rollback();
+                return response()->json(['error' => "product_not_update"] , 500);
+            }
 
         }catch(\Exception $e){
             #---------------------------------------------
@@ -247,6 +251,7 @@ class ProductController extends Controller
         }
         return response()->json(['response' => $delete]);
     }
+    #------------------------------------------
 
 
     #-----------------------------------------------------
