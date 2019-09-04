@@ -11,6 +11,7 @@
         "php": "^7.1.3",
         "cyber-duck/laravel-excel": "^1.2",
         "fideloper/proxy": "^4.0",
+        "imtigger/laravel-job-status": "^0.2.2",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1"

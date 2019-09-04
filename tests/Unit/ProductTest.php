@@ -3,6 +3,9 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Jobs\SendExcelFile;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
@@ -18,7 +21,6 @@ class ProductTest extends TestCase
 	    $this->assertDatabaseHas('products',['cdPlan'=> 12345]);
     }
     #---------------------------------------------------------
-
 
     #-----------------------------------------------
     # Teste para verificar o funcionamento das rotas
@@ -80,6 +82,17 @@ class ProductTest extends TestCase
     }
     #-----------------------------------------------------------------------
 
+    #-------------------------------------------------
+    # Realiza um teste de erro na exibição de produtos
+    public function testeErrorShowProduct(){
+        $response = $this->get('api/product/a');
+
+        $this->assertEquals('not_found' , $response->original['error']);
+    }
+
+
+    #------------------------------------------------
+    # Verifica se os produtos estão sendo atualizados
     public function testeProductUpdate(){
         #----------------------------------------------
         # Primeiramente adicionamos um Produto no banco
@@ -108,7 +121,11 @@ class ProductTest extends TestCase
             $this->assertTrue(false);
         }
     }
+    #-------------------------------------------------
 
+
+    #----------------------------------------------
+    # Verifica se os produtos estão sendo removidos
     public function testProductDelete(){
         $product = $this->createProductAux();
         $response = $this->get('api/product/delete/'.$product->id);
@@ -119,10 +136,15 @@ class ProductTest extends TestCase
             $this->assertTrue(false);
         }
     }
+    #----------------------------------------------
 
+
+    #-------------------------------------------------------------
+    # Verifica se os produtos por categoria estão sendo retornados
     public function testProductCategory(){
         $product = $this->createProductAux();
-        $response = $this->get('api/product/delete/'.$product->id);
+        $category = $product->category;
+        $response = $this->get('api/category/'.$category.'/products');
 
         if((int)$response->status() == 200){
             $this->assertTrue(true);
@@ -130,8 +152,9 @@ class ProductTest extends TestCase
             $this->assertTrue(false);
         }
     }
+    #-----------------------------------
 
-    #----------------------------------
+    #-------------------------------------------------------------------------------
     # Função auxiliar para criação de Produtos (Poderia utilizar o Faker do laravel)
     public function createProductAux(){
         $product = \App\Models\Product::create([
@@ -146,6 +169,7 @@ class ProductTest extends TestCase
 
         return $product;
     }
+    #-------------------------------------------------------------------------------
 
 
    

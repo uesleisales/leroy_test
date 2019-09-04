@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    
     private $product;
 
     public function __construct(Product $product){
@@ -118,15 +117,19 @@ class ProductController extends Controller
                          );
                     #-----------------------------------------
 
+
                     #---------------------------------------
                     # Dispara o Job de envio da Planilha
-                    SendExcelFile::dispatch($product);
+                    $job = new SendExcelFile($product);
+                    $this->dispatch($job);
+                    $jobStatusId = $job->getJobStatusId();
                     #---------------------------------------
 
                 }catch(\Exception $e){
                     #---------------------------------------------
                     # Faz um roolback das informações da transação
                     DB::rollback();
+                    return response()->json($e->getMessage());
                     #---------------------------------------------
                     return response()->json(['error' => "error_insert"], 500);
                 }

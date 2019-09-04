@@ -178,6 +178,8 @@ return [
         #--------------------------------------------
         # Provider relacionado ao uso do PHP Excel
         Cyberduck\LaravelExcel\ExcelServiceProvider::class,
+        Imtigger\LaravelJobStatus\LaravelJobStatusServiceProvider::class,
+
 
     ],
 
